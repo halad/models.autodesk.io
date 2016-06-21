@@ -55,12 +55,19 @@ router.get ('/oauth2', function (req, res) {
         redirect_uri :config.credentials.redirect_uri
   };
 
-request.post(config.GetTokenEndPoint, {
-	form: data,
-	function(error, response, body){
-		res.json(response);
+request.post({
+	url: config.GetTokenEndPoint,
+	form: data,	
+	headers: {
+		'Content-Type' : 'application/x-www-form-urlencoded' 	
 	}
-})
+  },
+	function(error, response, body){
+		if (error)
+			res.json(error);
+		else
+		res.json(response);
+	});
   
 
 });
