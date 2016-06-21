@@ -56,7 +56,7 @@ router.get ('/oauth2', function (req, res) {
   };
 
 request.post(config.GetTokenEndPoint, {
-	form: {key: data},
+	form: data,
 	function(error, response, body){
 		res.json(response);
 	}
