@@ -22,13 +22,21 @@ var config ={
 	credentials: {
 		client_id: '',
 		client_secret: '',
-		grant_type: 'client_credentials'
+		grant_type: 'client_credentials',
+     
+		scope: 'data:read,data:write',
+		redirect_uri: 'http://forgetester.azurewebsites.net/api/oauth2'
 	},
 
 	// If you which to use the Autodesk View & Data API on the staging server, change this url
 	BaseEndPoint: 'https://developer.api.autodesk.com',
 	Version: 'v1'
 } ;
+
+//&client_id=mh9JBqcVhnmK88GN0ehKjIw1KEq8st65&redirect_uri=http%3A%2F%2Fforgetester.azurewebsites.net%2Foauth2%2Fcallback&scope=data:read,data:write">Click here to grant access to your data!</a>
+
+config.GetTokenEndPoint = config.BaseEndPoint + '/authentication/' + config.Version + '/gettoken';
+config.AuthorizeEndPoint = config.BaseEndPoint + '/authentication/' + config.Version + '/authorize';
 
 config.AuthenticateEndPoint =config.BaseEndPoint + '/authentication/' + config.Version + '/authenticate' ;
 

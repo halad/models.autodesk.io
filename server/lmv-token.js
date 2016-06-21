@@ -22,26 +22,58 @@ var express =require ('express') ;
 var request =require ('request') ;
 var unirest =require('unirest') ;
 var config =require ('./credentials') ;
+var qs = require('querystring');
 
 var router =express.Router () ;
 
-router.get ('/token', function (req, res) {
-	config.credentials.client_id =req.query.key ;
-	config.credentials.client_secret= req.query.secret ;
-	unirest.post (config.AuthenticateEndPoint)
-		.header ('Accept', 'application/json')
-		.send (config.credentials)
-		.end (function (response) {
-			if ( response.statusCode != 200 )
-				return (res.status (500).end ()) ;
-			res.json (response.body) ;
-		})
-	;
-}) ;
+router.get('/token', function(req,res){
+    config.credentials.client_id =req.query.key;      
+	config.client_secret= req.query.secret;
 
-router.post ('/token', function (req, res) {
-	config.credentials.client_id =req.body.key ;
-	config.credentials.client_secret= req.body.secret ;
+    var data = {
+		client_id : 'mh9JBqcVhnmK88GN0ehKjIw1KEq8st65',
+		redirect_uri:  'http://forgetester.azurewebsites.net/api/oauth2',
+		response_type: 'code',
+		scope:'data:read'
+	};
+  
+var uri = config.AuthorizeEndPoint + '?' + qs.stringify(data);
+res.redirect(uri);
+
+});
+
+
+//callback for three legged
+router.get ('/oauth2', function (req, res) {
+  config.credentials.code = req.query.code;
+
+  unirest.post(config.GetTokenEndPoint)
+  .header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8;")
+  .field("client_id", "mh9JBqcVhnmK88GN0ehKjIw1KEq8st65")	
+  .field("client_secret", "3A3MjkadqRuyjdqA")	
+  .field("code", config.credentials.code)	
+  .field("grant_type", "authorization_code")	
+    .end (function (response) {					
+			res.json (response.body) ;
+		});
+
+});
+
+/*
+router.get ('/token', function (req, res) {
+	config.credentials.client_id =req.query.key;      
+	config.client_secret= req.query.secret;
+
+     config.credentials.response_type ='code';
+	unirest.get(config.AuthorizeEndPoint)
+	.header ('Accept', 'application/json')
+	.send(config.credentials)
+		.end (function (response) {
+			if ( response.statusCode != 200 )
+				return (res.status (500).end ()) ;
+			res.json (response.body) ;
+		})
+
 	unirest.post (config.AuthenticateEndPoint)
 		.header ('Accept', 'application/json')
 		.send (config.credentials)
@@ -50,7 +82,8 @@ router.post ('/token', function (req, res) {
 				return (res.status (500).end ()) ;
 			res.json (response.body) ;
 		})
-	;
-}) ;
+	
+});
+*/
 
 module.exports =router ;
