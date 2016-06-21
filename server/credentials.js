@@ -20,9 +20,9 @@
 //
 var config ={
 	credentials: {
-		client_id: '',
-		client_secret: '',
-		grant_type: 'client_credentials',
+		client_id: 'mh9JBqcVhnmK88GN0ehKjIw1KEq8st65',
+		client_secret: '3A3MjkadqRuyjdqA',
+		grant_type: 'authorization_code',
      
 		scope: 'data:read,data:write',
 		redirect_uri: 'http://forgetester.azurewebsites.net/api/oauth2'

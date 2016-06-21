@@ -27,12 +27,12 @@ var qs = require('querystring');
 var router =express.Router () ;
 
 router.get('/token', function(req,res){
-    config.credentials.client_id =req.query.key;      
-	config.client_secret= req.query.secret;
+    //config.credentials.client_id =req.query.key;      
+	//config.client_secret= req.query.secret;
 
     var data = {
-		client_id : 'mh9JBqcVhnmK88GN0ehKjIw1KEq8st65',
-		redirect_uri:  'http://forgetester.azurewebsites.net/api/oauth2',
+		client_id : config.credentials.client_id,
+		redirect_uri: config.credentials.redirect_uri,
 		response_type: 'code',
 		scope:'data:read'
 	};
@@ -47,15 +47,21 @@ res.redirect(uri);
 router.get ('/oauth2', function (req, res) {
   config.credentials.code = req.query.code;
 
-  unirest.post(config.GetTokenEndPoint)
-  .header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8;")
-  .field("client_id", "mh9JBqcVhnmK88GN0ehKjIw1KEq8st65")	
-  .field("client_secret", "3A3MjkadqRuyjdqA")	
-  .field("code", config.credentials.code)	
-  .field("grant_type", "authorization_code")	
-    .end (function (response) {					
-			res.json (response.body) ;
-		});
+  var data = {
+      client_id : config.credentials.client_id,
+      client_secret: config.credentials.client_secret,
+      grant_type: config.credentials.grant_type,
+        code : config.credentials.code,
+        redirect_uri :config.credentials.redirect_uri
+  };
+
+request.post(config.GetTokenEndPoint, {
+	form: {key: data},
+	function(error, response, body){
+		res.json(response);
+	}
+})
+  
 
 });
 
