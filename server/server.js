@@ -25,6 +25,7 @@ var favicon =require ('serve-favicon') ;
 var lmvToken =require ('./lmv-token') ;
 var lmvProjects =require ('./lmv-projects') ;
 var lmvFile =require ('./lmv-file') ;
+//var cookieParser = require('cookie-parser');
 
 // http://garann.github.io/template-chooser/
 var app =express () ;
@@ -35,7 +36,7 @@ app.use (favicon (__dirname + '/../www/images/favicon.ico')) ;
 app.use ('/api', lmvToken) ;
 app.use ('/api', lmvProjects) ;
 app.use ('/api', lmvFile) ;
-
+//app.use(cookieParser());
 
 
 
