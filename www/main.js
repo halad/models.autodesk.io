@@ -141,6 +141,8 @@ function translate (filename) {
 	var accessToken =$.cookie ('accessToken') ;
 	accessToken =JSON.parse (accessToken) ;
 
+	console.log("in translate, access_token = " + accessToken.access_token);
+
 	$.ajax ({
 		url: '/api/translate',
 		type: 'post',

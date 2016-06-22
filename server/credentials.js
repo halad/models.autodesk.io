@@ -22,10 +22,10 @@ var config ={
 	credentials: {
 		client_id: 'mh9JBqcVhnmK88GN0ehKjIw1KEq8st65',
 		client_secret: '3A3MjkadqRuyjdqA',
-		grant_type: 'authorization_code',
-     
-		scope: 'data:read,data:write',
-		redirect_uri: 'http://forgetester.azurewebsites.net/api/oauth2'
+		grant_type: 'client_credentials',
+     	//response_type: 'code',
+		scope:'data:write data:read data:create bucket:create bucket:read bucket:update',
+		//redirect_uri: 'http://forgetester.azurewebsites.net/api/oauth2'
 	},
 
 	// If you which to use the Autodesk View & Data API on the staging server, change this url

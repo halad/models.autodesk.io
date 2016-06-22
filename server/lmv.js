@@ -104,6 +104,7 @@ Lmv.prototype.createBucketIfNotExist =function (policy) {
 						.header ('Authorization', 'Bearer ' + self.accessToken)
 						.send ({ 'bucketKey': self.bucket, 'policy': policy })
 						.end (function (response) {
+							console.log(response);
 							try {
 								if ( response.statusCode != 200 || !response.body.hasOwnProperty ('key') )
 									throw response ;

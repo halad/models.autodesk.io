@@ -26,26 +26,30 @@ var qs = require('querystring');
 
 var router =express.Router () ;
 
-router.get('/token', function(req,res){
-    //config.credentials.client_id =req.query.key;      
-	//config.client_secret= req.query.secret;
 
-    var data = {
-		client_id : config.credentials.client_id,
-		redirect_uri: config.credentials.redirect_uri,
-		response_type: 'code',
-		scope:'data:read'
-	};
-  
-var uri = config.AuthorizeEndPoint + '?' + qs.stringify(data);
-res.redirect(uri);
+router.get ('/token', function (req, res) {		
+//config.credentials.client_id =req.query.key ;	
+//config.credentials.client_secret= req.query.secret ;	      
+unirest.post (config.AuthenticateEndPoint)	
+.header ('Accept', 'application/json')		
+.send (config.credentials)
+.end (function (response) {	
+    res.json (response.body) 
+  });		
+}) ;		
 
+
+router.post ('/token', function (req, res) {
+	//config.credentials.client_id =req.body.key ;		
+	//config.credentials.client_secret= req.body.secret ;		
+unirest.post (config.AuthenticateEndPoint)	
+	.header ('Accept', 'application/json')
+	.send (config.credentials)
+	.end (function (response) {		
+		res.json (response.body) ;
+		});
 });
-
-
-//callback for three legged
-router.get ('/oauth2', function (req, res) {
-  config.credentials.code = req.query.code;
+/*
 
   var data = {
       client_id : config.credentials.client_id,
@@ -63,39 +67,22 @@ request.post({
 	}
   },
 	function(error, response, body){
-		if (error)
+	if (error){
 			res.json(error);
+		}
 		else
-		res.json(response);
-	});
+		{	
+		res.json(body)		;
+			/*var data = body.data;
+			var date =new Date () ;
+			date.setTime (date.getTime () + (parseInt (data.expires_in) * 1000)) ; // ~30 minutes
+			data.expires_at =date.toString () ;
+			$.cookie ('accessToken', JSON.stringify (data), { expires: date }) ; //, secure: true }) ;
+			res.redirect_uri("/");
+		};
+		
+		});
   
-
-});
-
-/*
-router.get ('/token', function (req, res) {
-	config.credentials.client_id =req.query.key;      
-	config.client_secret= req.query.secret;
-
-     config.credentials.response_type ='code';
-	unirest.get(config.AuthorizeEndPoint)
-	.header ('Accept', 'application/json')
-	.send(config.credentials)
-		.end (function (response) {
-			if ( response.statusCode != 200 )
-				return (res.status (500).end ()) ;
-			res.json (response.body) ;
-		})
-
-	unirest.post (config.AuthenticateEndPoint)
-		.header ('Accept', 'application/json')
-		.send (config.credentials)
-		.end (function (response) {
-			if ( response.statusCode != 200 )
-				return (res.status (500).end ()) ;
-			res.json (response.body) ;
-		})
-	
 });
 */
 
