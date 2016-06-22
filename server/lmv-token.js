@@ -53,7 +53,7 @@ request.post({
 			date.setTime (date.getTime () + (parseInt (data.expires_in) * 1000)) ; // ~30 minutes
 			data.expires_at =date.toString () ;
 	    res.cookie('accessToken', JSON.stringify(data), {expires: date});		
-		res.json(response);	
+		res.json(data);	
 		}
 		
 	});
