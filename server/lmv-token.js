@@ -16,7 +16,7 @@ router.get('/token', function(req,res){
 		client_id : config.credentials.client_id,
 		redirect_uri: config.credentials.redirect_uri,
 		response_type: 'code',
-		scope:'data:read'
+		scope:'data:read data:write'
 	};
   
 var uri = config.AuthorizeEndPoint + '?' + qs.stringify(data);
